@@ -19,3 +19,4 @@ def showTorchImage(image):
     mode = transforms.ToPILImage()(image)
     plt.imshow(mode)
     plt.show()
+    
