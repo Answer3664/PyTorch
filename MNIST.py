@@ -35,9 +35,9 @@ optimizer = optim.SGD(model.parameters(), lr=learning_rate)
 
 for epoch in range(num_epoches):
     model.train()
-    for data in train_loader:
-        img, label = data
-        img = img.view(img.size(0), -1)  # 展开成1 *784（28*28）
+    for data in train_loader:    # 每次取一个batch_size张图片
+        img, label = data   # img.size:128*1*28*28
+        img = img.view(img.size(0), -1)  # 展开成128 *784（28*28）
         img = img.cuda()
         label = label.cuda()
         output = model(img)
@@ -58,7 +58,7 @@ for epoch in range(num_epoches):
         label = label.cuda()
         out = model(img)
         loss = loss_fn(out, label)
-        eval_loss += loss.item() * label.size(0)
+        eval_loss += loss.item() * label.size(0)   # lable.size(0)=128
         _, pred = torch.max(out, 1)
         num_correct = (pred == label).sum()
         eval_acc += num_correct.item()
