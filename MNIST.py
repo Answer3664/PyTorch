@@ -38,8 +38,9 @@ for epoch in range(num_epoches):
     for data in train_loader:    # 每次取一个batch_size张图片
         img, label = data   # img.size:128*1*28*28
         img = img.view(img.size(0), -1)  # 展开成128 *784（28*28）
-        img = img.cuda()
-        label = label.cuda()
+        if torch.cuda.is_available():
+            img = img.cuda()
+            label = label.cuda()
         output = model(img)
         loss = loss_fn(output, label)
         # 反向传播
@@ -54,8 +55,9 @@ for epoch in range(num_epoches):
     for data in test_loader:
         img, label = data
         img = img.view(img.size(0), -1)
-        img = img.cuda()
-        label = label.cuda()
+        if torch.cuda.is_available():
+            img = img.cuda()
+            label = label.cuda()
         out = model(img)
         loss = loss_fn(out, label)
         eval_loss += loss.item() * label.size(0)   # lable.size(0)=128
